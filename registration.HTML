@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #a8a8a8 50%, #e470d4 50%);
+        }
+
+        .container {
+            width: 400px;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            margin: 50px auto;
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"],
+        select,
+        input[type="color"] {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0 12px;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        a {
+            color: blue;
+            text-decoration: none;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .footer {
+            text-align: left;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Registration</h2>
+        <p>Please fill in this form to create an account</p>
+
+        <form id="registrationForm">
+            <label>Full Name</label>
+            <input type="text" placeholder="Enter Fullname" required>
+
+            <label>Email</label>
+            <input type="email" placeholder="Enter Email" required>
+
+            <label>Gender</label><br>
+            <input type="radio" name="gender" value="Male"> Male
+            <input type="radio" name="gender" value="Female"> Female
+            <br><br>
+
+            <label>Password</label>
+            <input type="password" placeholder="Enter Password" required>
+
+            <label>Confirm Password</label>
+            <input type="password" placeholder="Enter Password" required>
+
+            <label>Date of Birth</label>
+            <input type="date" required>
+
+            <label>Choose your country</label>
+            <select>
+                <option>Afghanistan</option>
+                <option>India</option>
+                <option>USA</option>
+                <option>UK</option>
+                <option>Other</option>
+            </select>
+
+            <label>Background color</label>
+            <input type="color" value="#ff0000">
+
+            <label>Feedback</label>
+            <input type="text" placeholder="Enter feedback">
+
+            <input type="checkbox" required> I accept all of the <a href="#">Terms and Conditions</a>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div class="footer">
+            <p>Box 3</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            alert("Form submitted successfully!");
+        });
+    </script>
+
+</body>
+</html>
