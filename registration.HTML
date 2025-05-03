@@ -6,16 +6,15 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #a8a8a8 50%, #e470d4 50%);
+            /*font-family: Arial, sans-serif;*/
+            background: linear-gradient(to right, #b361fff5 50%, #287accbe 50%);
         }
 
         .container {
             width: 400px;
-            background-color: rgba(255, 255, 255, 0.7);
-            padding: 20px;
-            margin: 50px auto;
-            border-radius: 10px;
+            padding: 100px;
+           /* margin: 50px 0 50px 50px; /* Left-align */
+           /* border-radius: 10px;*/
         }
 
         h2 {
@@ -57,11 +56,6 @@
             width: 100%;
             font-size: 16px;
             margin-top: 10px;
-        }
-
-        .footer {
-            text-align: left;
-            margin-top: 20px;
         }
 
         .error {
@@ -121,10 +115,6 @@
 
             <button type="submit">Submit</button>
         </form>
-
-        <div class="footer">
-            <p>Box 3</p>
-        </div>
     </div>
 
     <script>
@@ -179,7 +169,6 @@
 
             if (valid) {
                 alert("Form submitted successfully!");
-                // You can now submit the form or do further actions
             }
         });
     </script>
