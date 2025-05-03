@@ -38,10 +38,7 @@
             box-sizing: border-box;
         }
 
-        input[type="radio"] {
-            margin-right: 5px;
-        }
-
+        input[type="radio"],
         input[type="checkbox"] {
             margin-right: 5px;
         }
@@ -66,6 +63,11 @@
             text-align: left;
             margin-top: 20px;
         }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -76,28 +78,32 @@
 
         <form id="registrationForm">
             <label>Full Name</label>
-            <input type="text" placeholder="Enter Fullname" required>
+            <input type="text" id="fullName" placeholder="Enter Fullname" required>
+            <div class="error" id="nameError"></div>
 
             <label>Email</label>
-            <input type="email" placeholder="Enter Email" required>
+            <input type="email" id="email" placeholder="Enter Email" required>
 
             <label>Gender</label><br>
-            <input type="radio" name="gender" value="Male"> Male
-            <input type="radio" name="gender" value="Female"> Female
+            <input type="radio" name="gender" value="Male" required> Male
+            <input type="radio" name="gender" value="Female" required> Female
             <br><br>
 
             <label>Password</label>
-            <input type="password" placeholder="Enter Password" required>
+            <input type="password" id="password" placeholder="Enter Password" required>
 
             <label>Confirm Password</label>
-            <input type="password" placeholder="Enter Password" required>
+            <input type="password" id="confirmPassword" placeholder="Enter Password" required>
+            <div class="error" id="passwordError"></div>
 
             <label>Date of Birth</label>
-            <input type="date" required>
+            <input type="date" id="dob" required>
+            <div class="error" id="dobError"></div>
 
             <label>Choose your country</label>
-            <select>
+            <select id="country">
                 <option>Afghanistan</option>
+                <option>Bangladesh</option>
                 <option>India</option>
                 <option>USA</option>
                 <option>UK</option>
@@ -110,7 +116,8 @@
             <label>Feedback</label>
             <input type="text" placeholder="Enter feedback">
 
-            <input type="checkbox" required> I accept all of the <a href="#">Terms and Conditions</a>
+            <input type="checkbox" id="terms"> I accept all of the <a href="#">Terms and Conditions</a>
+            <div class="error" id="termsError"></div>
 
             <button type="submit">Submit</button>
         </form>
@@ -123,7 +130,57 @@
     <script>
         document.getElementById("registrationForm").addEventListener("submit", function(e) {
             e.preventDefault();
-            alert("Form submitted successfully!");
+
+            // Clear previous errors
+            document.getElementById("nameError").textContent = "";
+            document.getElementById("passwordError").textContent = "";
+            document.getElementById("dobError").textContent = "";
+            document.getElementById("termsError").textContent = "";
+
+            // Get values
+            const name = document.getElementById("fullName").value.trim();
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const dob = document.getElementById("dob").value;
+            const termsAccepted = document.getElementById("terms").checked;
+
+            let valid = true;
+
+            // Name validation
+            if (name.length < 6) {
+                document.getElementById("nameError").textContent = "Name must be at least 6 characters.";
+                valid = false;
+            }
+
+            // Password match validation
+            if (password !== confirmPassword) {
+                document.getElementById("passwordError").textContent = "Passwords do not match.";
+                valid = false;
+            }
+
+            // DOB validation (must be 18+)
+            if (dob) {
+                const birthDate = new Date(dob);
+                const today = new Date();
+                const age = today.getFullYear() - birthDate.getFullYear();
+                const m = today.getMonth() - birthDate.getMonth();
+                const d = today.getDate() - birthDate.getDate();
+                if (age < 18 || (age === 18 && (m < 0 || (m === 0 && d < 0)))) {
+                    document.getElementById("dobError").textContent = "You must be at least 18 years old.";
+                    valid = false;
+                }
+            }
+
+            // Terms checkbox validation
+            if (!termsAccepted) {
+                document.getElementById("termsError").textContent = "You must accept the Terms and Conditions.";
+                valid = false;
+            }
+
+            if (valid) {
+                alert("Form submitted successfully!");
+                // You can now submit the form or do further actions
+            }
         });
     </script>
 
