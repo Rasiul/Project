@@ -2,23 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registration</title>
+    <title>Registration & Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
     <style>
         body {
             margin: 0;
-            /*font-family: Arial, sans-serif;*/
-            background: linear-gradient(to right, #b361fff5 50%, #287accbe 50%);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #fff9f0 50%, #b560d1 50%);
+            color: #002244;
+            display: flex;
+            justify-content: space-between;
         }
 
         .container {
-            width: 400px;
-            padding: 100px;
-           /* margin: 50px 0 50px 50px; /* Left-align */
-           /* border-radius: 10px;*/
+            width: 45%;
+            padding: 150px;
+            box-sizing: border-box;
         }
 
         h2 {
-            text-align: center;
+            text-align: left;
         }
 
         label {
@@ -31,6 +35,7 @@
         input[type="date"],
         select,
         input[type="color"] {
+            border-radius: 20px;
             width: 100%;
             padding: 8px;
             margin: 6px 0 12px;
@@ -48,25 +53,33 @@
         }
 
         button {
-            background-color: #4CAF50;
+            background-color: #26ab34;
             color: white;
             padding: 10px 16px;
             border: none;
             cursor: pointer;
-            width: 100%;
+            width: 40%;
             font-size: 16px;
             margin-top: 10px;
+            box-sizing: border-box;
         }
 
         .error {
             color: red;
             font-size: 14px;
         }
+
+        .divider {
+            width: 2px;
+            background-color: #ccc;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Registration Section -->
     <div class="container">
+        <h2>AQI for Mankind</h2>
         <h2>Registration</h2>
         <p>Please fill in this form to create an account</p>
 
@@ -76,7 +89,7 @@
             <div class="error" id="nameError"></div>
 
             <label>Email</label>
-            <input type="email" id="email" placeholder="Enter Email" required>
+            <input type="email" id="regEmail" placeholder="Enter Email" required>
 
             <label>Gender</label><br>
             <input type="radio" name="gender" value="Male" required> Male
@@ -113,22 +126,40 @@
             <input type="checkbox" id="terms"> I accept all of the <a href="#">Terms and Conditions</a>
             <div class="error" id="termsError"></div>
 
-            <button type="submit">Submit</button>
+            <button type="submit">Register</button>
         </form>
     </div>
 
+    <!-- Login Section -->
+    <div class="container">
+        <h2>Login</h2>
+        <p>Please enter your credentials</p>
+
+        <form id="loginForm">
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="Enter Email" required>
+
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter Password" required>
+            <div class="error" id="loginError"></div>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <!-- JavaScript Section -->
     <script>
+        // Registration
         document.getElementById("registrationForm").addEventListener("submit", function(e) {
             e.preventDefault();
 
-            // Clear previous errors
             document.getElementById("nameError").textContent = "";
             document.getElementById("passwordError").textContent = "";
             document.getElementById("dobError").textContent = "";
             document.getElementById("termsError").textContent = "";
 
-            // Get values
             const name = document.getElementById("fullName").value.trim();
+            const email = document.getElementById("regEmail").value.trim();
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirmPassword").value;
             const dob = document.getElementById("dob").value;
@@ -136,19 +167,16 @@
 
             let valid = true;
 
-            // Name validation
             if (name.length < 6) {
                 document.getElementById("nameError").textContent = "Name must be at least 6 characters.";
                 valid = false;
             }
 
-            // Password match validation
             if (password !== confirmPassword) {
                 document.getElementById("passwordError").textContent = "Passwords do not match.";
                 valid = false;
             }
 
-            // DOB validation (must be 18+)
             if (dob) {
                 const birthDate = new Date(dob);
                 const today = new Date();
@@ -161,14 +189,42 @@
                 }
             }
 
-            // Terms checkbox validation
             if (!termsAccepted) {
                 document.getElementById("termsError").textContent = "You must accept the Terms and Conditions.";
                 valid = false;
             }
 
             if (valid) {
-                alert("Form submitted successfully!");
+                localStorage.setItem("registeredEmail", email);
+                localStorage.setItem("registeredPassword", password);
+                alert("Registration successful! Now you can log in.");
+                document.getElementById("registrationForm").reset();
+            }
+        });
+
+        // Login
+        document.getElementById("loginForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById("loginEmail").value.trim();
+            const password = document.getElementById("loginPassword").value.trim();
+            const loginError = document.getElementById("loginError");
+
+            loginError.textContent = "";
+
+            const storedEmail = localStorage.getItem("registeredEmail");
+            const storedPassword = localStorage.getItem("registeredPassword");
+
+            if (!storedEmail || !storedPassword) {
+                alert("No registered user found. Please register first.");
+                return;
+            }
+
+            if (email === storedEmail && password === storedPassword) {
+                alert("Login successful!");
+                document.getElementById("loginForm").reset();
+            } else {
+                alert("Invalid email or password. Please try again.");
             }
         });
     </script>
